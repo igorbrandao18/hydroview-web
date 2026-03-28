@@ -1,0 +1,90 @@
+import {
+  Badge,
+  Button,
+  DataTable,
+  DataTableBody,
+  DataTableHead,
+  DataTableRow,
+  DataTableTd,
+  DataTableTh,
+  Input,
+  PageHeader,
+  StatCard,
+} from "@/components/ui";
+import type { ReservoirDevice } from "@/lib/types";
+
+export function DevicesScreen({ devices }: { devices: ReservoirDevice[] }) {
+  return (
+    <div className="mx-auto max-w-6xl">
+      <PageHeader
+        eyebrow="Operação"
+        title="Dispositivos"
+        description="Catálogo sincronizado com a plataforma IoT. Associe cada dispositivo a um reservatório no cadastro de assets."
+        actions={
+          <>
+            <Button variant="secondary" size="sm">Sincronizar agora</Button>
+            <Button size="sm">Adicionar dispositivo</Button>
+          </>
+        }
+      />
+
+      <div className="mb-6 grid gap-4 sm:grid-cols-3">
+        <StatCard label="Dispositivos"  value={devices.length} />
+        <StatCard label="Conectados"    value={devices.filter((d) => d.online).length} />
+        <StatCard label="Sem sinal"     value={devices.filter((d) => !d.online).length} />
+      </div>
+
+      <div className="mb-4 max-w-sm">
+        <label htmlFor="filter-devices" className="sr-only">Filtrar dispositivos</label>
+        <Input id="filter-devices" type="search" placeholder="Buscar por nome ou ID…" />
+      </div>
+
+      <DataTable>
+        <DataTableHead>
+          <DataTableRow>
+            <DataTableTh>Dispositivo</DataTableTh>
+            <DataTableTh>Produto</DataTableTh>
+            <DataTableTh>Nível</DataTableTh>
+            <DataTableTh>Status</DataTableTh>
+            <DataTableTh className="text-right">Atualização</DataTableTh>
+          </DataTableRow>
+        </DataTableHead>
+        <DataTableBody>
+          {devices.map((d) => (
+            <DataTableRow key={d.id}>
+              <DataTableTd>
+                <span className="font-medium">{d.name}</span>
+                <div className="font-mono text-[10px] text-[var(--muted)]">{d.id}</div>
+                {d.serialNumber && (
+                  <div className="font-mono text-[10px] text-[var(--muted)]">S/N {d.serialNumber}</div>
+                )}
+              </DataTableTd>
+              <DataTableTd>
+                <span>{d.productName ?? "—"}</span>
+                {d.spaceName && (
+                  <div className="text-[10px] text-[var(--muted)]">{d.spaceName}</div>
+                )}
+              </DataTableTd>
+              <DataTableTd className="tabular-nums">
+                {d.levelPercent}%
+                {d.alarmLowerPct !== undefined && (
+                  <div className="text-[10px] text-[var(--muted)]">
+                    limiar {d.alarmLowerPct}–{d.alarmUpperPct ?? 100}%
+                  </div>
+                )}
+              </DataTableTd>
+              <DataTableTd>
+                <Badge tone={d.online ? "success" : "critical"}>
+                  {d.online ? "Conectado" : "Sem sinal"}
+                </Badge>
+              </DataTableTd>
+              <DataTableTd className="text-right text-[var(--muted)]">
+                {new Date(d.lastUpdate).toLocaleString("pt-BR")}
+              </DataTableTd>
+            </DataTableRow>
+          ))}
+        </DataTableBody>
+      </DataTable>
+    </div>
+  );
+}
