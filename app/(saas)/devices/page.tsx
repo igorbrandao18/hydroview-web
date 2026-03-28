@@ -5,6 +5,9 @@ export const metadata = { title: "Dispositivos | HydroView" };
 export const dynamic = "force-dynamic";
 
 export default async function DevicesPage() {
-  const devices = await getTuyaDevices();
+  let devices = await getTuyaDevices().catch((err) => {
+    console.error("[devices page]", err);
+    return [];
+  });
   return <DevicesScreen devices={devices} />;
 }

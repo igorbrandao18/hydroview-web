@@ -6,15 +6,12 @@ export const metadata = {
   description: "Monitoramento de reservatórios e alertas (MVP).",
 };
 
-// Sempre busca dados frescos da Tuya a cada requisição
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-  const { reservoirs } = await getTuyaDashboard();
-
-  return (
-    <DashboardScreen
-      reservoirs={reservoirs}
-    />
-  );
+  const { reservoirs } = await getTuyaDashboard().catch((err) => {
+    console.error("[dashboard page]", err);
+    return { reservoirs: [] };
+  });
+  return <DashboardScreen reservoirs={reservoirs} />;
 }
