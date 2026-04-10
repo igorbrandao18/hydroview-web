@@ -30,23 +30,17 @@ export default function HomePage() {
           <span className="text-[var(--accent-deep)]">IoT</span> na nuvem.
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--muted)]">
-          Plataforma multitenant para empresas parceiras: cada condomínio com seu painel de caixas,
-          cisternas, alertas de nível e base para previsão de falta de água — com API própria e
-          eventos em tempo quase real no backend.
+          Plataforma para empresas parceiras: cada condomínio com seu painel de caixas,
+          cisternas, alertas de nível e estimativa de autonomia — com telemetria dos sensores
+          atualizada a cada acesso.
         </p>
-        <div className="mt-10 flex flex-wrap gap-4">
+        <div className="mt-10">
           <Link
             href="/login"
             className="inline-flex items-center justify-center rounded-xl bg-[var(--foreground)] px-6 py-3 text-sm font-semibold text-[var(--background)] transition hover:opacity-90"
           >
             Entrar no painel
           </Link>
-          <a
-            href="/integrations/platform"
-            className="inline-flex items-center justify-center rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] px-6 py-3 text-sm font-semibold text-[var(--foreground)] transition hover:bg-[var(--surface-elevated)]"
-          >
-            Integrações
-          </a>
         </div>
       </main>
     </div>

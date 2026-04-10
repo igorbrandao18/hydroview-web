@@ -2,26 +2,39 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 import { saasNav } from "@/lib/nav-config";
+import type { NavItem } from "@/lib/nav-config";
 
 function NavLink({
-  href,
-  label,
+  item,
   onNavigate,
 }: {
-  href: string;
-  label: string;
+  item: NavItem;
   onNavigate?: () => void;
 }) {
   const pathname = usePathname();
   const isActive =
-    href === "/dashboard"
+    item.href === "/dashboard"
       ? pathname === "/dashboard"
-      : pathname === href || pathname.startsWith(`${href}/`);
+      : pathname === item.href || pathname.startsWith(`${item.href}/`);
+
+  if (item.disabled) {
+    return (
+      <span className="flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-[var(--sidebar-muted)] opacity-50 cursor-not-allowed">
+        {item.label}
+        {item.badge && (
+          <span className="rounded-full bg-[var(--sidebar-hover)] px-1.5 py-0.5 text-[9px]">
+            {item.badge}
+          </span>
+        )}
+      </span>
+    );
+  }
 
   return (
     <Link
-      href={href}
+      href={item.href}
       onClick={onNavigate}
       className={`flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
         isActive
@@ -29,12 +42,15 @@ function NavLink({
           : "text-[var(--sidebar-muted)] hover:bg-[var(--sidebar-hover)] hover:text-[var(--sidebar-fg)]"
       }`}
     >
-      {label}
+      {item.label}
     </Link>
   );
 }
 
 export function SaasSidebar({ onNavigate }: { onNavigate?: () => void }) {
+  const { data: session } = useSession();
+  const userName = session?.user?.name ?? "Usuário";
+
   return (
     <div className="flex h-full flex-col border-r border-[var(--sidebar-border)] bg-[var(--sidebar-bg)]">
       <div className="flex h-14 items-center gap-2 border-b border-[var(--sidebar-border)] px-4">
@@ -46,7 +62,7 @@ export function SaasSidebar({ onNavigate }: { onNavigate?: () => void }) {
             HydroView
           </span>
           <span className="block truncate text-[10px] text-[var(--sidebar-muted)]">
-            Console administrativo
+            Monitoramento de água
           </span>
         </div>
       </div>
@@ -60,7 +76,7 @@ export function SaasSidebar({ onNavigate }: { onNavigate?: () => void }) {
             <ul className="space-y-0.5">
               {section.items.map((item) => (
                 <li key={item.href}>
-                  <NavLink href={item.href} label={item.label} onNavigate={onNavigate} />
+                  <NavLink item={item} onNavigate={onNavigate} />
                 </li>
               ))}
             </ul>
@@ -70,16 +86,15 @@ export function SaasSidebar({ onNavigate }: { onNavigate?: () => void }) {
 
       <div className="border-t border-[var(--sidebar-border)] p-3">
         <div className="rounded-lg bg-[var(--sidebar-hover)]/60 px-3 py-2">
-          <p className="text-xs font-medium text-[var(--sidebar-fg)]">HidroParceiros Ltda</p>
-          <p className="truncate text-[10px] text-[var(--sidebar-muted)]">admin@hidroparceiros.com</p>
+          <p className="text-xs font-medium text-[var(--sidebar-fg)]">{userName}</p>
         </div>
-        <Link
-          href="/"
-          onClick={onNavigate}
+        <button
+          type="button"
+          onClick={() => { onNavigate?.(); signOut({ callbackUrl: "/login" }); }}
           className="mt-2 block w-full rounded-lg px-3 py-2 text-center text-xs font-medium text-[var(--sidebar-muted)] hover:bg-[var(--sidebar-hover)] hover:text-[var(--sidebar-fg)]"
         >
-          Sair para site
-        </Link>
+          Sair
+        </button>
       </div>
     </div>
   );

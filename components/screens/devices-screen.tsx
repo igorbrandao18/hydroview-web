@@ -1,13 +1,11 @@
 import {
   Badge,
-  Button,
   DataTable,
   DataTableBody,
   DataTableHead,
   DataTableRow,
   DataTableTd,
   DataTableTh,
-  Input,
   PageHeader,
   StatCard,
 } from "@/components/ui";
@@ -19,24 +17,13 @@ export function DevicesScreen({ devices }: { devices: ReservoirDevice[] }) {
       <PageHeader
         eyebrow="Operação"
         title="Dispositivos"
-        description="Catálogo sincronizado com a plataforma IoT. Associe cada dispositivo a um reservatório no cadastro de assets."
-        actions={
-          <>
-            <Button variant="secondary" size="sm">Sincronizar agora</Button>
-            <Button size="sm">Adicionar dispositivo</Button>
-          </>
-        }
+        description="Catálogo de sensores sincronizado com a plataforma IoT."
       />
 
       <div className="mb-6 grid gap-4 sm:grid-cols-3">
-        <StatCard label="Dispositivos"  value={devices.length} />
-        <StatCard label="Conectados"    value={devices.filter((d) => d.online).length} />
-        <StatCard label="Sem sinal"     value={devices.filter((d) => !d.online).length} />
-      </div>
-
-      <div className="mb-4 max-w-sm">
-        <label htmlFor="filter-devices" className="sr-only">Filtrar dispositivos</label>
-        <Input id="filter-devices" type="search" placeholder="Buscar por nome ou ID…" />
+        <StatCard label="Dispositivos" value={devices.length} />
+        <StatCard label="Conectados"   value={devices.filter((d) => d.online).length} />
+        <StatCard label="Sem sinal"    value={devices.filter((d) => !d.online).length} />
       </div>
 
       <DataTable>

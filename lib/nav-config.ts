@@ -2,6 +2,7 @@ export type NavItem = {
   href: string;
   label: string;
   badge?: string;
+  disabled?: boolean;
 };
 
 export type NavSection = {
@@ -20,31 +21,26 @@ export const saasNav: NavSection[] = [
       { href: "/reservoirs", label: "Reservatórios" },
       { href: "/devices", label: "Dispositivos" },
       { href: "/alerts", label: "Alertas" },
-      { href: "/reports", label: "Relatórios" },
+      { href: "/reports", label: "Relatórios", disabled: true, badge: "Em breve" },
     ],
   },
   {
-    title: "Gestão multitenant",
+    title: "Gestão",
     items: [
-      { href: "/partners", label: "Empresas parceiras" },
-      { href: "/condominiums", label: "Condomínios" },
-      { href: "/assets", label: "Assets & hierarquia" },
-    ],
-  },
-  {
-    title: "Integrações",
-    items: [
-      { href: "/integrations/platform", label: "Plataforma IoT" },
-      { href: "/integrations/webhooks", label: "Webhooks & API" },
+      { href: "/condominiums", label: "Condomínios", disabled: true, badge: "Em breve" },
+      { href: "/partners", label: "Empresas parceiras", disabled: true, badge: "Em breve" },
+      { href: "/assets", label: "Assets & hierarquia", disabled: true, badge: "Em breve" },
     ],
   },
   {
     title: "Sistema",
     items: [
-      { href: "/team", label: "Usuários & permissões" },
-      { href: "/billing", label: "Faturamento" },
-      { href: "/settings", label: "Configurações" },
-      { href: "/audit", label: "Auditoria" },
+      { href: "/settings", label: "Configurações", disabled: true, badge: "Em breve" },
+      { href: "/team", label: "Usuários", disabled: true, badge: "Em breve" },
+      { href: "/billing", label: "Faturamento", disabled: true, badge: "Em breve" },
+      { href: "/audit", label: "Auditoria", disabled: true, badge: "Em breve" },
+      { href: "/integrations/platform", label: "Plataforma IoT", disabled: true, badge: "Em breve" },
+      { href: "/integrations/webhooks", label: "Webhooks", disabled: true, badge: "Em breve" },
     ],
   },
 ];

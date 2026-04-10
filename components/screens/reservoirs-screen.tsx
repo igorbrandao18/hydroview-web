@@ -1,13 +1,11 @@
 import {
   Badge,
-  Button,
   DataTable,
   DataTableBody,
   DataTableHead,
   DataTableRow,
   DataTableTd,
   DataTableTh,
-  Input,
   PageHeader,
   StatCard,
 } from "@/components/ui";
@@ -26,23 +24,12 @@ export function ReservoirsScreen({ devices }: { devices: ReservoirDevice[] }) {
         eyebrow="Operação"
         title="Reservatórios"
         description="Leitura em tempo real de caixas e cisternas vinculadas ao projeto."
-        actions={
-          <>
-            <Button variant="secondary" size="sm">Exportar lista</Button>
-            <Button size="sm">Novo reservatório</Button>
-          </>
-        }
       />
 
       <div className="mb-6 grid gap-4 sm:grid-cols-3">
-        <StatCard label="Total"           value={devices.length} />
+        <StatCard label="Total"            value={devices.length} />
         <StatCard label="Conectados agora" value={devices.filter((d) => d.online).length} />
-        <StatCard label="Nível médio"     value={`${avgLevel}%`} />
-      </div>
-
-      <div className="mb-4 max-w-sm">
-        <label htmlFor="filter-reservoirs" className="sr-only">Filtrar</label>
-        <Input id="filter-reservoirs" type="search" placeholder="Filtrar por nome ou ID…" />
+        <StatCard label="Nível médio"      value={`${avgLevel}%`} />
       </div>
 
       <DataTable>
