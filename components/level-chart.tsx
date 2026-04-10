@@ -17,15 +17,15 @@ type Props = {
   deviceId: string;
 };
 
-const REF_LINES: {
-  key: keyof Pick<DeviceHistory, "alarmUpperPct" | "alarmLowerPct">;
-  label: string;
-  color: string;
-  dash?: string;
-}[] = [
-  { key: "alarmUpperPct", label: "Alarme superior", color: "#f97316", dash: "6 3" },
-  { key: "alarmLowerPct", label: "Alarme inferior", color: "#22c55e", dash: "6 3" },
-];
+/** Linhas de referência — cores inspiradas no Aquanet */
+const REF_LINES = [
+  { key: "limiteSuperior", label: "Limite superior",   color: "#2563eb", dash: undefined,  width: 2   },
+  { key: "extravasador",   label: "Extravasador",      color: "#e879f9", dash: "6 3",      width: 1.5 },
+  { key: "recargaMaxima",  label: "Recarga máxima",    color: "#f97316", dash: "6 3",      width: 1.5 },
+  { key: "recargaMinima",  label: "Recarga mínima",    color: "#22c55e", dash: "6 3",      width: 1.5 },
+  { key: "nivelCritico",   label: "Nível crítico",     color: "#a855f7", dash: "4 2",      width: 1.5 },
+  { key: "reservaTecnica", label: "Reserva técnica",   color: "#ef4444", dash: undefined,  width: 2   },
+] as const;
 
 function ChartTooltip({ active, payload }: { active?: boolean; payload?: { payload: LevelHistoryPoint }[] }) {
   if (!active || !payload?.[0]) return null;
@@ -33,10 +33,10 @@ function ChartTooltip({ active, payload }: { active?: boolean; payload?: { paylo
   return (
     <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-2 text-xs shadow-md">
       <p className="font-semibold text-[var(--foreground)]">{p.time}</p>
-      <p className="text-[var(--muted)]">Nível: <span className="font-semibold text-[var(--accent)]">{p.levelPercent}%</span></p>
-      {p.depthMm > 0 && (
-        <p className="text-[var(--muted)]">Profundidade: {p.depthMm} mm</p>
-      )}
+      <p className="text-[var(--muted)]">
+        Nível: <span className="font-semibold text-[var(--accent)]">{p.levelM.toFixed(2)} m</span>
+        <span className="ml-2 text-[var(--muted)]">({p.levelPercent}%)</span>
+      </p>
     </div>
   );
 }
@@ -61,7 +61,7 @@ export function LevelChart({ deviceId }: Props) {
 
   if (loading) {
     return (
-      <div className="flex h-64 items-center justify-center text-sm text-[var(--muted)]">
+      <div className="flex h-48 items-center justify-center text-sm text-[var(--muted)]">
         Carregando histórico…
       </div>
     );
@@ -69,7 +69,7 @@ export function LevelChart({ deviceId }: Props) {
 
   if (error || !history) {
     return (
-      <div className="flex h-64 items-center justify-center text-sm text-[var(--muted)]">
+      <div className="flex h-48 items-center justify-center text-sm text-[var(--muted)]">
         {error || "Histórico indisponível"}
       </div>
     );
@@ -77,15 +77,18 @@ export function LevelChart({ deviceId }: Props) {
 
   if (history.points.length === 0) {
     return (
-      <div className="flex h-64 items-center justify-center text-sm text-[var(--muted)]">
+      <div className="flex h-48 items-center justify-center text-sm text-[var(--muted)]">
         Sem dados de histórico nas últimas 24h.
       </div>
     );
   }
 
+  const t = history.thresholds;
+  const yMax = Math.ceil((t.limiteSuperior + 0.2) * 10) / 10;
+
   return (
-    <div className="mt-4 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-3">
-      <div className="mb-3 flex items-center justify-between">
+    <div className="mt-3 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-3">
+      <div className="mb-2 flex items-center justify-between">
         <h3 className="text-sm font-semibold text-[var(--foreground)]">
           Nível nas últimas 24h — {history.deviceName}
         </h3>
@@ -94,12 +97,12 @@ export function LevelChart({ deviceId }: Props) {
         </span>
       </div>
 
-      <ResponsiveContainer width="100%" height={280}>
-        <AreaChart data={history.points} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+      <ResponsiveContainer width="100%" height={300}>
+        <AreaChart data={history.points} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
           <defs>
             <linearGradient id={`grad-${deviceId}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="var(--accent)" stopOpacity={0.4} />
-              <stop offset="95%" stopColor="var(--accent)" stopOpacity={0.05} />
+              <stop offset="5%" stopColor="#38bdf8" stopOpacity={0.5} />
+              <stop offset="95%" stopColor="#38bdf8" stopOpacity={0.05} />
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
@@ -109,23 +112,15 @@ export function LevelChart({ deviceId }: Props) {
             interval="preserveStartEnd"
           />
           <YAxis
-            domain={[0, 100]}
+            domain={[0, yMax]}
             tick={{ fontSize: 10, fill: "var(--muted)" }}
-            tickFormatter={(v: number) => `${v}%`}
+            tickFormatter={(v: number) => `${v.toFixed(1)}m`}
           />
           <Tooltip content={<ChartTooltip />} />
 
-          {/* Linha de 100% — teto */}
-          <ReferenceLine
-            y={100}
-            stroke="#3b82f6"
-            strokeWidth={2}
-            label={{ value: "Teto (100%)", position: "insideTopRight", fontSize: 9, fill: "#3b82f6" }}
-          />
-
-          {/* Linhas de alarme configuradas no sensor */}
+          {/* Linhas de referência operacionais */}
           {REF_LINES.map((ref) => {
-            const val = history[ref.key];
+            const val = t[ref.key as keyof typeof t];
             if (val === undefined) return null;
             return (
               <ReferenceLine
@@ -133,10 +128,10 @@ export function LevelChart({ deviceId }: Props) {
                 y={val}
                 stroke={ref.color}
                 strokeDasharray={ref.dash}
-                strokeWidth={1.5}
+                strokeWidth={ref.width}
                 label={{
-                  value: `${ref.label} (${val}%)`,
-                  position: "insideBottomRight",
+                  value: `${ref.label} (${val.toFixed(2)}m)`,
+                  position: "insideTopRight",
                   fontSize: 9,
                   fill: ref.color,
                 }}
@@ -144,18 +139,10 @@ export function LevelChart({ deviceId }: Props) {
             );
           })}
 
-          {/* Linha de nível crítico fixo em 10% */}
-          <ReferenceLine
-            y={10}
-            stroke="#ef4444"
-            strokeWidth={2}
-            label={{ value: "Crítico (10%)", position: "insideBottomRight", fontSize: 9, fill: "#ef4444" }}
-          />
-
           <Area
             type="monotone"
-            dataKey="levelPercent"
-            stroke="var(--accent)"
+            dataKey="levelM"
+            stroke="#38bdf8"
             strokeWidth={2}
             fill={`url(#grad-${deviceId})`}
             isAnimationActive={false}
@@ -164,21 +151,22 @@ export function LevelChart({ deviceId }: Props) {
       </ResponsiveContainer>
 
       {/* Legenda */}
-      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[10px] text-[var(--muted)]">
+      <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[10px] text-[var(--muted)] sm:grid-cols-4">
+        {REF_LINES.map((ref) => (
+          <span key={ref.key} className="flex items-center gap-1">
+            <span
+              className="inline-block h-0.5 w-4"
+              style={{
+                background: ref.dash ? "none" : ref.color,
+                borderTop: ref.dash ? `1.5px dashed ${ref.color}` : "none",
+              }}
+            />
+            {ref.label} ({t[ref.key as keyof typeof t]?.toFixed(2)}m)
+          </span>
+        ))}
         <span className="flex items-center gap-1">
-          <span className="inline-block h-0.5 w-4 bg-[#3b82f6]" /> Teto (100%)
-        </span>
-        <span className="flex items-center gap-1">
-          <span className="inline-block h-0.5 w-4 bg-[#f97316]" style={{ borderTop: "1.5px dashed #f97316", background: "none" }} /> Alarme superior ({history.alarmUpperPct}%)
-        </span>
-        <span className="flex items-center gap-1">
-          <span className="inline-block h-0.5 w-4 bg-[#22c55e]" style={{ borderTop: "1.5px dashed #22c55e", background: "none" }} /> Alarme inferior ({history.alarmLowerPct}%)
-        </span>
-        <span className="flex items-center gap-1">
-          <span className="inline-block h-0.5 w-4 bg-[#ef4444]" /> Crítico (10%)
-        </span>
-        <span className="flex items-center gap-1">
-          <span className="inline-block h-0.5 w-4 bg-[var(--accent)]" /> Nível medido
+          <span className="inline-block h-0.5 w-4 bg-[#38bdf8]" />
+          Nível medido
         </span>
       </div>
     </div>

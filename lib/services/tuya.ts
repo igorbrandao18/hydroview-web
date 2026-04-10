@@ -14,7 +14,8 @@ import {
   creds,
   stepListProjectDevices,
 } from "./tuya-sequence.mjs";
-import type { ReservoirDevice, DataPoint, DashboardAlert, DashboardPayload, DeviceHistory, LevelHistoryPoint } from "@/lib/types";
+import type { ReservoirDevice, DataPoint, DashboardAlert, DashboardPayload, DeviceHistory, LevelHistoryPoint, ChartThresholds } from "@/lib/types";
+import { getThresholds } from "@/lib/reservoir-config";
 
 // ─── Tipos internos ────────────────────────────────────────────────────────────
 
@@ -439,12 +440,26 @@ export async function getDeviceHistory(deviceId: string): Promise<DeviceHistory 
   const sorted = [...byTime.entries()].sort((a, b) => a[0] - b[0]);
   const points: LevelHistoryPoint[] = sorted
     .filter(([, v]) => v.levelPercent !== undefined)
-    .map(([ts, v]) => ({
-      timestamp: ts,
-      time: new Date(ts).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
-      levelPercent: v.levelPercent ?? 0,
-      depthMm: v.depthMm ?? 0,
-    }));
+    .map(([ts, v]) => {
+      const depth = v.depthMm ?? 0;
+      return {
+        timestamp: ts,
+        time: new Date(ts).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
+        levelPercent: v.levelPercent ?? 0,
+        depthMm: depth,
+        levelM: depth / 1000,
+      };
+    });
+
+  const t = getThresholds(deviceId);
+  const thresholds: ChartThresholds = {
+    limiteSuperior: t.limiteSuperior,
+    extravasador: t.extravasador,
+    recargaMaxima: t.recargaMaxima,
+    recargaMinima: t.recargaMinima,
+    nivelCritico: t.nivelCritico,
+    reservaTecnica: t.reservaTecnica,
+  };
 
   return {
     deviceId,
@@ -452,6 +467,7 @@ export async function getDeviceHistory(deviceId: string): Promise<DeviceHistory 
     installationHeightMm: installHeight,
     alarmUpperPct: alarmUpper,
     alarmLowerPct: alarmLower,
+    thresholds,
     points,
   };
 }

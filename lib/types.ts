@@ -58,6 +58,18 @@ export type LevelHistoryPoint = {
   timestamp: number; // ms epoch
   levelPercent: number;
   depthMm: number;
+  /** Nível em metros (depthMm / 1000) */
+  levelM: number;
+};
+
+/** Limiares operacionais em metros (linhas de referência do gráfico) */
+export type ChartThresholds = {
+  limiteSuperior: number;
+  extravasador: number;
+  recargaMaxima: number;
+  recargaMinima: number;
+  nivelCritico: number;
+  reservaTecnica: number;
 };
 
 export type DeviceHistory = {
@@ -66,6 +78,7 @@ export type DeviceHistory = {
   installationHeightMm: number;
   alarmUpperPct: number;
   alarmLowerPct: number;
+  thresholds: ChartThresholds;
   points: LevelHistoryPoint[];
 };
 
