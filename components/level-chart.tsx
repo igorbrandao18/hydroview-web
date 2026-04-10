@@ -94,17 +94,17 @@ export function LevelChart({ deviceId }: Props) {
   const yMax = Math.ceil((t.limiteSuperior + 0.2) * 10) / 10;
 
   return (
-    <div className="mt-3 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-3">
+    <div className="mt-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-2 sm:mt-3 sm:p-3">
       <div className="mb-2 flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-[var(--foreground)]">
-          Nível nas últimas 24h — {history.deviceName}
+        <h3 className="text-xs font-semibold text-[var(--foreground)] sm:text-sm">
+          Nível nas últimas 24h
         </h3>
-        <span className="text-[10px] text-[var(--muted)]">
+        <span className="text-[9px] text-[var(--muted)] sm:text-[10px]">
           {history.points.length} leituras
         </span>
       </div>
 
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={220} className="sm:!h-[300px]">
         <AreaChart data={history.points} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
           <defs>
             <linearGradient id={`grad-${deviceId}`} x1="0" y1="0" x2="0" y2="1">
@@ -158,7 +158,7 @@ export function LevelChart({ deviceId }: Props) {
       </ResponsiveContainer>
 
       {/* Legenda */}
-      <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[10px] text-[var(--muted)] sm:grid-cols-4">
+      <div className="mt-2 grid grid-cols-2 gap-x-2 gap-y-0.5 text-[8px] text-[var(--muted)] sm:grid-cols-3 sm:gap-x-4 sm:gap-y-1 sm:text-[10px] md:grid-cols-4">
         {REF_LINES.map((ref) => (
           <span key={ref.key} className="flex items-center gap-1">
             <span

@@ -29,7 +29,7 @@ export function AlertList({ alerts }: { alerts: DashboardAlert[] }) {
         return (
           <li
             key={a.id}
-            className="flex gap-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4"
+            className="flex gap-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-2 sm:gap-4 sm:rounded-xl sm:p-4"
           >
             <span className={`mt-1 h-full w-1 shrink-0 rounded-full ${s.bar}`} aria-hidden />
             <div className="min-w-0 flex-1">
@@ -46,7 +46,7 @@ export function AlertList({ alerts }: { alerts: DashboardAlert[] }) {
                       : "Crítico"}
                 </span>
               </div>
-              <p className="mt-1 text-sm text-[var(--muted)]">{a.message}</p>
+              <p className="mt-1 text-xs text-[var(--muted)] sm:text-sm">{a.message}</p>
               <time className="mt-2 block text-xs text-[var(--muted)]">
                 {new Date(a.at).toLocaleString("pt-BR")}
               </time>

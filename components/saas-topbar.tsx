@@ -31,12 +31,12 @@ export function SaasTopbar({ onMenuClick }: Props) {
   const initials = (session?.user?.name ?? "?").slice(0, 2).toUpperCase();
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center justify-between gap-4 border-b border-[var(--border)] bg-[var(--surface)]/95 px-4 backdrop-blur-md sm:px-6">
-      <div className="flex min-w-0 items-center gap-3">
+    <header className="sticky top-0 z-30 flex h-12 shrink-0 items-center justify-between gap-2 border-b border-[var(--border)] bg-[var(--surface)]/95 px-3 backdrop-blur-md sm:h-14 sm:gap-4 sm:px-6">
+      <div className="flex min-w-0 items-center gap-2 sm:gap-3">
         <button
           type="button"
           onClick={onMenuClick}
-          className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] text-[var(--foreground)] lg:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--surface-elevated)] text-[var(--foreground)] lg:hidden"
           aria-label="Abrir menu"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
@@ -44,7 +44,7 @@ export function SaasTopbar({ onMenuClick }: Props) {
           </svg>
         </button>
         <div className="min-w-0">
-          <h1 className="truncate font-[family-name:var(--font-display)] text-lg text-[var(--foreground)]">
+          <h1 className="truncate font-[family-name:var(--font-display)] text-base text-[var(--foreground)] sm:text-lg">
             {title}
           </h1>
         </div>
@@ -53,7 +53,7 @@ export function SaasTopbar({ onMenuClick }: Props) {
       <button
         type="button"
         onClick={() => signOut({ callbackUrl: "/login" })}
-        className="flex h-8 shrink-0 items-center gap-1.5 rounded-full bg-[var(--accent)] px-3 text-xs font-bold text-[var(--accent-foreground)] transition-opacity hover:opacity-90"
+        className="flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-[var(--accent)] px-3 text-xs font-bold text-[var(--accent-foreground)] transition-opacity hover:opacity-90"
         title="Sair"
       >
         {initials}

@@ -20,7 +20,7 @@ const stateColor: Record<string, string> = {
 
 function Pill({ label, value }: { label: string; value: string }) {
   return (
-    <span className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--surface-elevated)] px-2 py-0.5 text-xs text-[var(--muted)]">
+    <span className="inline-flex items-center gap-0.5 rounded-full border border-[var(--border)] bg-[var(--surface-elevated)] px-1.5 py-0.5 text-[10px] text-[var(--muted)] sm:gap-1 sm:px-2 sm:text-xs">
       <span className="font-medium text-[var(--foreground)]">{value}</span>
       <span>{label}</span>
     </span>
@@ -40,18 +40,18 @@ export function ReservoirCard({ device }: Props) {
   const stateClass = stateColor[stateLabel] ?? "text-[var(--muted)]";
 
   return (
-    <article className="relative overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 shadow-sm">
+    <article className="relative overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--surface)] p-3 shadow-sm sm:rounded-xl sm:p-4">
       <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[var(--accent)]/10 blur-2xl" />
 
-      {/* Cabeçalho */}
-      <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+      {/* Header */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
         <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[var(--accent-deep)]">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-[var(--accent-deep)] sm:text-xs">
               {roleLabel[device.role]}
             </p>
             <span
-              className={`text-xs font-semibold ${
+              className={`text-[10px] font-semibold sm:text-xs ${
                 device.online
                   ? "text-[var(--device-online)]"
                   : "text-[var(--device-offline)]"
@@ -61,24 +61,24 @@ export function ReservoirCard({ device }: Props) {
             </span>
           </div>
 
-          <h2 className="mt-1 font-[family-name:var(--font-display)] text-xl text-[var(--foreground)]">
+          <h2 className="mt-0.5 font-[family-name:var(--font-display)] text-base text-[var(--foreground)] sm:mt-1 sm:text-xl">
             {device.name}
           </h2>
 
-          <p className="mt-0.5 font-mono text-xs text-[var(--muted)]">
+          <p className="mt-0.5 font-mono text-[10px] text-[var(--muted)] sm:text-xs">
             {device.id}
           </p>
 
           {device.productName && (
-            <p className="mt-0.5 text-xs text-[var(--muted)]">
+            <p className="mt-0.5 text-[10px] text-[var(--muted)] sm:text-xs">
               {device.productName}
               {device.category ? ` · cat. ${device.category}` : ""}
             </p>
           )}
 
-          {/* Pills de estado, sinal e bateria */}
-          <div className="mt-3 flex flex-wrap gap-2">
-            <span className={`text-xs font-semibold ${stateClass}`}>
+          {/* Pills */}
+          <div className="mt-2 flex flex-wrap gap-1 sm:mt-3 sm:gap-2">
+            <span className={`text-[10px] font-semibold sm:text-xs ${stateClass}`}>
               {stateLabel}
             </span>
             {device.signalDb !== undefined && (
@@ -102,7 +102,7 @@ export function ReservoirCard({ device }: Props) {
           </div>
 
           {device.autonomyHint && (
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-[var(--muted)]">
+            <p className="mt-2 text-xs leading-relaxed text-[var(--muted)] sm:mt-3 sm:text-sm">
               {device.autonomyHint}
             </p>
           )}
@@ -117,16 +117,16 @@ export function ReservoirCard({ device }: Props) {
 
       {/* Data points */}
       {device.dataPoints.length > 0 && (
-        <dl className="mt-6 grid grid-cols-2 gap-3 border-t border-[var(--border)] pt-6 sm:grid-cols-4">
+        <dl className="mt-3 grid grid-cols-2 gap-1.5 border-t border-[var(--border)] pt-3 sm:mt-4 sm:gap-3 sm:pt-4 md:grid-cols-4">
           {device.dataPoints.map((dp) => (
-            <div key={dp.code} className="rounded-lg bg-[var(--surface-elevated)] px-3 py-2">
-              <dt className="text-[10px] font-medium uppercase tracking-wide text-[var(--muted)]">
+            <div key={dp.code} className="rounded-md bg-[var(--surface-elevated)] px-2 py-1.5 sm:rounded-lg sm:px-3 sm:py-2">
+              <dt className="text-[8px] font-medium uppercase tracking-wide text-[var(--muted)] sm:text-[10px]">
                 {dp.label}
               </dt>
-              <dd className="mt-0.5 text-sm font-semibold tabular-nums text-[var(--foreground)]">
+              <dd className="mt-0.5 text-xs font-semibold tabular-nums text-[var(--foreground)] sm:text-sm">
                 {String(dp.value)}
                 {dp.unit ? (
-                  <span className="ml-0.5 text-xs font-normal text-[var(--muted)]">
+                  <span className="ml-0.5 text-[10px] font-normal text-[var(--muted)] sm:text-xs">
                     {dp.unit}
                   </span>
                 ) : null}
@@ -136,16 +136,16 @@ export function ReservoirCard({ device }: Props) {
         </dl>
       )}
 
-      {/* Gráfico de nível 24h */}
+      {/* Chart */}
       <LevelChart deviceId={device.id} />
 
-      {/* Rodapé */}
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
-        <p className="text-[10px] text-[var(--muted)]">
+      {/* Footer */}
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-1 sm:mt-4 sm:gap-2">
+        <p className="text-[9px] text-[var(--muted)] sm:text-[10px]">
           Atualizado · {new Date(device.lastUpdate).toLocaleString("pt-BR")}
         </p>
         {device.updateTime && (
-          <p className="text-[10px] text-[var(--muted)]">
+          <p className="text-[9px] text-[var(--muted)] sm:text-[10px]">
             Tuya sync · {new Date(device.updateTime * 1000).toLocaleString("pt-BR")}
           </p>
         )}

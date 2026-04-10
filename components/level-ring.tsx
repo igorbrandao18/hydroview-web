@@ -15,8 +15,8 @@ export function LevelRing({ percent, label, online }: Props) {
   const offset = circumference - (p / 100) * circumference;
 
   return (
-    <div className="flex flex-col items-center gap-2">
-      <div className="relative h-28 w-28">
+    <div className="flex flex-col items-center gap-1 sm:gap-2">
+      <div className="relative h-20 w-20 sm:h-24 sm:w-24 md:h-28 md:w-28">
         <svg className="-rotate-90" viewBox="0 0 100 100" aria-hidden>
           <circle
             cx="50"
@@ -47,11 +47,11 @@ export function LevelRing({ percent, label, online }: Props) {
           </defs>
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-[family-name:var(--font-display)] text-2xl tabular-nums text-[var(--foreground)]">
+          <span className="font-[family-name:var(--font-display)] text-lg tabular-nums text-[var(--foreground)] sm:text-xl md:text-2xl">
             {Math.round(p)}%
           </span>
           <span
-            className={`text-[10px] font-medium uppercase tracking-wider ${
+            className={`text-[8px] font-medium uppercase tracking-wider sm:text-[10px] ${
               online ? "text-[var(--device-online)]" : "text-[var(--device-offline)]"
             }`}
           >
