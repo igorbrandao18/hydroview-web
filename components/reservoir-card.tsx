@@ -1,5 +1,6 @@
 import type { ReservoirDevice } from "@/lib/types";
 import { LevelRing } from "./level-ring";
+import { LevelChart } from "./level-chart";
 
 type Props = {
   device: ReservoirDevice;
@@ -134,6 +135,9 @@ export function ReservoirCard({ device }: Props) {
           ))}
         </dl>
       )}
+
+      {/* Gráfico de nível 24h */}
+      <LevelChart deviceId={device.id} />
 
       {/* Rodapé */}
       <div className="mt-4 flex flex-wrap items-center justify-between gap-2">

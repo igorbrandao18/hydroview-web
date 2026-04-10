@@ -52,6 +52,23 @@ export type DashboardAlert = {
   at: string;
 };
 
+/** Ponto no gráfico histórico de nível */
+export type LevelHistoryPoint = {
+  time: string;     // "HH:mm"
+  timestamp: number; // ms epoch
+  levelPercent: number;
+  depthMm: number;
+};
+
+export type DeviceHistory = {
+  deviceId: string;
+  deviceName: string;
+  installationHeightMm: number;
+  alarmUpperPct: number;
+  alarmLowerPct: number;
+  points: LevelHistoryPoint[];
+};
+
 export type DashboardPayload = {
   context: TenantContext;
   reservoirs: ReservoirDevice[];

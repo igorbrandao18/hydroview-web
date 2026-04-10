@@ -14,7 +14,7 @@ import {
   creds,
   stepListProjectDevices,
 } from "./tuya-sequence.mjs";
-import type { ReservoirDevice, DataPoint, DashboardAlert, DashboardPayload } from "@/lib/types";
+import type { ReservoirDevice, DataPoint, DashboardAlert, DashboardPayload, DeviceHistory, LevelHistoryPoint } from "@/lib/types";
 
 // ─── Tipos internos ────────────────────────────────────────────────────────────
 
@@ -360,4 +360,98 @@ export async function getTuyaDevices(): Promise<ReservoirDevice[]> {
 export async function getTuyaDashboard(): Promise<Pick<DashboardPayload, "reservoirs">> {
   const reservoirs = await getTuyaDevices();
   return { reservoirs };
+}
+
+// ─── Histórico de nível (report-logs v2) ───────────────────────────────────────
+
+type ReportLog = { code: string; event_time: number; value: string };
+type ReportLogsRes = {
+  success?: boolean;
+  result?: { logs?: ReportLog[]; has_more?: boolean; last_row_key?: string };
+};
+
+/** Busca logs de nível das últimas 24h via /v2.0/cloud/thing/{id}/report-logs. */
+async function fetchReportLogs(
+  c: TuyaCtx,
+  deviceId: string,
+  codes: string,
+  hours = 24,
+): Promise<ReportLog[]> {
+  const now = Date.now();
+  const start = now - hours * 60 * 60 * 1000;
+  const all: ReportLog[] = [];
+  let lastRowKey: string | undefined;
+
+  for (let page = 0; page < 10; page++) {
+    const query: Record<string, unknown> = {
+      start_time: start,
+      end_time: now,
+      codes,
+      size: 100,
+    };
+    if (lastRowKey) query.last_row_key = lastRowKey;
+
+    const res = (await c.request({
+      path: `/v2.0/cloud/thing/${deviceId}/report-logs`,
+      method: "GET",
+      query,
+    })) as ReportLogsRes;
+
+    if (!res?.success || !res.result?.logs) break;
+    all.push(...res.result.logs);
+    if (!res.result.has_more) break;
+    lastRowKey = res.result.last_row_key;
+    if (!lastRowKey) break;
+  }
+
+  return all;
+}
+
+/** Retorna pontos de histórico para o gráfico de nível de um dispositivo. */
+export async function getDeviceHistory(deviceId: string): Promise<DeviceHistory | null> {
+  const c = await getCtx();
+
+  const [logs, props, iot] = await Promise.all([
+    fetchReportLogs(c, deviceId, "liquid_level_percent,liquid_depth"),
+    fetchShadowProps(c, deviceId),
+    fetchIotDetail(c, deviceId),
+  ]);
+
+  const installHeight = shadowNum(props, "installation_height") ?? 2500;
+  const alarmUpper    = shadowNum(props, "max_set") ?? 90;
+  const alarmLower    = shadowNum(props, "mini_set") ?? 20;
+  const deviceName    = noCJK(iot?.name) ?? deviceId;
+
+  // Agrupar logs por minuto: juntar liquid_level_percent + liquid_depth do mesmo horário
+  const byTime = new Map<number, { levelPercent?: number; depthMm?: number }>();
+
+  for (const log of logs) {
+    // Arredondar para minuto
+    const minute = Math.floor(log.event_time / 60000) * 60000;
+    const entry = byTime.get(minute) ?? {};
+    const val = Number(log.value);
+    if (log.code === "liquid_level_percent") entry.levelPercent = val;
+    if (log.code === "liquid_depth") entry.depthMm = val;
+    byTime.set(minute, entry);
+  }
+
+  // Ordenar por tempo e formatar
+  const sorted = [...byTime.entries()].sort((a, b) => a[0] - b[0]);
+  const points: LevelHistoryPoint[] = sorted
+    .filter(([, v]) => v.levelPercent !== undefined)
+    .map(([ts, v]) => ({
+      timestamp: ts,
+      time: new Date(ts).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
+      levelPercent: v.levelPercent ?? 0,
+      depthMm: v.depthMm ?? 0,
+    }));
+
+  return {
+    deviceId,
+    deviceName,
+    installationHeightMm: installHeight,
+    alarmUpperPct: alarmUpper,
+    alarmLowerPct: alarmLower,
+    points,
+  };
 }
