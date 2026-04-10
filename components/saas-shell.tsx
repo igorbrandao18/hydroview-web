@@ -30,7 +30,7 @@ export function SaasShell({ children }: { children: React.ReactNode }) {
 
       <div className="flex min-h-full min-w-0 flex-1 flex-col lg:ml-0">
         <SaasTopbar onMenuClick={() => setMobileOpen(true)} />
-        <div className="flex-1 overflow-auto p-4 sm:p-6">{children}</div>
+        <div className="flex-1 overflow-auto p-2 sm:p-3">{children}</div>
       </div>
     </div>
   );

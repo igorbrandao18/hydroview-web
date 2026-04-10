@@ -24,7 +24,7 @@ export function DashboardScreen({ reservoirs, alerts }: Props) {
       />
 
       {/* Resumo rápido */}
-      <div className="mb-8 grid gap-4 sm:grid-cols-3">
+      <div className="mb-4 grid gap-3 sm:grid-cols-3">
         <StatCard label="Conectados" value={online} />
         <StatCard label="Sem sinal" value={offline} />
         <StatCard label="Nível médio" value={`${avgLevel}%`} />
@@ -32,7 +32,7 @@ export function DashboardScreen({ reservoirs, alerts }: Props) {
 
       {/* Alertas */}
       {alerts.length > 0 && (
-        <section className="mb-10">
+        <section className="mb-4">
           <h2 className="mb-4 font-[family-name:var(--font-display)] text-lg text-[var(--foreground)]">
             Alertas
           </h2>
@@ -41,14 +41,14 @@ export function DashboardScreen({ reservoirs, alerts }: Props) {
       )}
 
       {/* Reservatórios */}
-      <section className="mb-12">
+      <section className="mb-4">
         <h2 className="mb-4 font-[family-name:var(--font-display)] text-lg text-[var(--foreground)]">
           Reservatórios
         </h2>
         {reservoirs.length === 0 ? (
           <p className="text-sm text-[var(--muted)]">Nenhum dispositivo encontrado no projeto.</p>
         ) : (
-          <div className="grid gap-6">
+          <div className="grid gap-3">
             {reservoirs.map((d) => (
               <ReservoirCard key={d.id} device={d} />
             ))}

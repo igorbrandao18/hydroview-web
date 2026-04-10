@@ -40,7 +40,7 @@ export function ReservoirCard({ device }: Props) {
   const stateClass = stateColor[stateLabel] ?? "text-[var(--muted)]";
 
   return (
-    <article className="relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm">
+    <article className="relative overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 shadow-sm">
       <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[var(--accent)]/10 blur-2xl" />
 
       {/* Cabeçalho */}

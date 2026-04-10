@@ -84,7 +84,7 @@ export function LevelChart({ deviceId }: Props) {
   }
 
   return (
-    <div className="mt-6 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4">
+    <div className="mt-4 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-3">
       <div className="mb-3 flex items-center justify-between">
         <h3 className="text-sm font-semibold text-[var(--foreground)]">
           Nível nas últimas 24h — {history.deviceName}
