@@ -8,7 +8,7 @@ export function SaasShell({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="flex min-h-full bg-[var(--background-muted)]">
+    <div className="flex h-screen overflow-hidden bg-[var(--background-muted)]">
       {/* Mobile overlay */}
       {mobileOpen ? (
         <button
@@ -28,7 +28,7 @@ export function SaasShell({ children }: { children: React.ReactNode }) {
         <SaasSidebar onNavigate={() => setMobileOpen(false)} />
       </aside>
 
-      <div className="flex min-h-full min-w-0 flex-1 flex-col lg:ml-0">
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         <SaasTopbar onMenuClick={() => setMobileOpen(true)} />
         <div className="flex-1 overflow-auto p-2 sm:p-3">{children}</div>
       </div>
