@@ -13,7 +13,7 @@ export default function HomePage() {
             HydroView
           </span>
           <Link
-            href="/login"
+            href="/dashboard"
             className="rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-[var(--accent-foreground)] shadow-sm transition hover:opacity-90"
           >
             Abrir console
@@ -36,7 +36,7 @@ export default function HomePage() {
         </p>
         <div className="mt-10">
           <Link
-            href="/login"
+            href="/dashboard"
             className="inline-flex items-center justify-center rounded-xl bg-[var(--foreground)] px-6 py-3 text-sm font-semibold text-[var(--background)] transition hover:opacity-90"
           >
             Entrar no painel
