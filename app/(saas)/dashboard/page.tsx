@@ -1,5 +1,5 @@
 import { DashboardScreen } from "@/components/screens";
-import { getTuyaDashboard } from "@/lib/services/tuya";
+import { getTuyaDashboard, generateAlerts } from "@/lib/services/tuya";
 
 export const metadata = {
   title: "Início | HydroView",
@@ -13,5 +13,6 @@ export default async function DashboardPage() {
     console.error("[dashboard page]", err);
     return { reservoirs: [] };
   });
-  return <DashboardScreen reservoirs={reservoirs} />;
+  const alerts = generateAlerts(reservoirs);
+  return <DashboardScreen reservoirs={reservoirs} alerts={alerts} />;
 }

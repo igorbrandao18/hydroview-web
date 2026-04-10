@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 import { saasNav } from "@/lib/nav-config";
 
 function titleFromPath(pathname: string): string {
@@ -26,6 +27,8 @@ type Props = {
 export function SaasTopbar({ onMenuClick }: Props) {
   const pathname = usePathname();
   const title = titleFromPath(pathname);
+  const { data: session } = useSession();
+  const initials = (session?.user?.name ?? "?").slice(0, 2).toUpperCase();
 
   return (
     <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center justify-between gap-4 border-b border-[var(--border)] bg-[var(--surface)]/95 px-4 backdrop-blur-md sm:px-6">
@@ -77,9 +80,17 @@ export function SaasTopbar({ onMenuClick }: Props) {
           </svg>
           <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[var(--accent)]" />
         </button>
-        <div className="hidden h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-[var(--accent-foreground)] sm:flex">
-          IB
-        </div>
+        <button
+          type="button"
+          onClick={() => signOut({ callbackUrl: "/login" })}
+          className="hidden h-8 shrink-0 items-center gap-1.5 rounded-full bg-[var(--accent)] px-3 text-xs font-bold text-[var(--accent-foreground)] transition-opacity hover:opacity-90 sm:flex"
+          title="Sair"
+        >
+          {initials}
+          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+        </button>
       </div>
     </header>
   );
