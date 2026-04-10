@@ -36,7 +36,7 @@ export function AlertList({ alerts }: { alerts: DashboardAlert[] }) {
               <div className="flex flex-wrap items-center gap-2">
                 <h3 className="font-medium text-[var(--foreground)]">{a.title}</h3>
                 <span
-                  className="rounded-full px-2 py-0.5 text-[10px] font-semibold"
+                  className="rounded-full px-2 py-0.5 text-[0.625rem] font-semibold"
                   style={{ backgroundColor: s.badgeBg, color: s.badgeFg }}
                 >
                   {a.level === "ok"

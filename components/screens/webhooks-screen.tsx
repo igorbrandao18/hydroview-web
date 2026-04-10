@@ -65,7 +65,7 @@ export function WebhooksScreen() {
             <DataTableBody>
               {rows.map((w) => (
                 <DataTableRow key={w.id}>
-                  <DataTableTd className="max-w-[200px] truncate font-mono text-xs">{w.url}</DataTableTd>
+                  <DataTableTd className="max-w-[12.5rem] truncate font-mono text-xs">{w.url}</DataTableTd>
                   <DataTableTd className="text-xs text-[var(--muted)]">{w.events}</DataTableTd>
                   <DataTableTd>
                     <Badge tone={w.status === "ativo" ? "success" : "neutral"}>

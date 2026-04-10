@@ -48,13 +48,13 @@ export function ReservoirsScreen({ devices }: { devices: ReservoirDevice[] }) {
             <DataTableRow key={d.id}>
               <DataTableTd>
                 <span className="font-medium">{d.name}</span>
-                <div className="font-mono text-[10px] text-[var(--muted)]">{d.id}</div>
+                <div className="font-mono text-[0.625rem] text-[var(--muted)]">{d.id}</div>
               </DataTableTd>
               <DataTableTd>{rolePt[d.role]}</DataTableTd>
               <DataTableTd className="tabular-nums">
                 {d.levelPercent}%
                 {d.depthMm !== undefined && (
-                  <div className="text-[10px] text-[var(--muted)]">{d.depthMm} mm</div>
+                  <div className="text-[0.625rem] text-[var(--muted)]">{d.depthMm} mm</div>
                 )}
               </DataTableTd>
               <DataTableTd>

@@ -24,7 +24,7 @@ function NavLink({
       <span className="flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-[var(--sidebar-muted)] opacity-50 cursor-not-allowed">
         {item.label}
         {item.badge && (
-          <span className="rounded-full bg-[var(--sidebar-hover)] px-1.5 py-0.5 text-[9px]">
+          <span className="rounded-full bg-[var(--sidebar-hover)] px-1.5 py-0.5 text-[0.5625rem]">
             {item.badge}
           </span>
         )}
@@ -61,7 +61,7 @@ export function SaasSidebar({ onNavigate }: { onNavigate?: () => void }) {
           <span className="block truncate font-[family-name:var(--font-display)] text-sm font-semibold text-[var(--sidebar-fg)]">
             HydroView
           </span>
-          <span className="block truncate text-[10px] text-[var(--sidebar-muted)]">
+          <span className="block truncate text-[0.625rem] text-[var(--sidebar-muted)]">
             Monitoramento de água
           </span>
         </div>
@@ -70,7 +70,7 @@ export function SaasSidebar({ onNavigate }: { onNavigate?: () => void }) {
       <nav className="flex-1 overflow-y-auto px-2 py-4">
         {saasNav.map((section) => (
           <div key={section.title} className="mb-6 last:mb-0">
-            <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-wider text-[var(--sidebar-muted)]">
+            <p className="mb-2 px-3 text-[0.625rem] font-semibold uppercase tracking-wider text-[var(--sidebar-muted)]">
               {section.title}
             </p>
             <ul className="space-y-0.5">

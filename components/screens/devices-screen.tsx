@@ -41,21 +41,21 @@ export function DevicesScreen({ devices }: { devices: ReservoirDevice[] }) {
             <DataTableRow key={d.id}>
               <DataTableTd>
                 <span className="font-medium">{d.name}</span>
-                <div className="font-mono text-[10px] text-[var(--muted)]">{d.id}</div>
+                <div className="font-mono text-[0.625rem] text-[var(--muted)]">{d.id}</div>
                 {d.serialNumber && (
-                  <div className="font-mono text-[10px] text-[var(--muted)]">S/N {d.serialNumber}</div>
+                  <div className="font-mono text-[0.625rem] text-[var(--muted)]">S/N {d.serialNumber}</div>
                 )}
               </DataTableTd>
               <DataTableTd>
                 <span>{d.productName ?? "—"}</span>
                 {d.spaceName && (
-                  <div className="text-[10px] text-[var(--muted)]">{d.spaceName}</div>
+                  <div className="text-[0.625rem] text-[var(--muted)]">{d.spaceName}</div>
                 )}
               </DataTableTd>
               <DataTableTd className="tabular-nums">
                 {d.levelPercent}%
                 {d.alarmLowerPct !== undefined && (
-                  <div className="text-[10px] text-[var(--muted)]">
+                  <div className="text-[0.625rem] text-[var(--muted)]">
                     limiar {d.alarmLowerPct}–{d.alarmUpperPct ?? 100}%
                   </div>
                 )}

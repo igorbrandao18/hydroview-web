@@ -8,14 +8,14 @@ type Props = {
 export function DataTable({ children, className = "" }: Props) {
   return (
     <div className={`-mx-2 overflow-x-auto rounded-lg border border-[var(--border)] sm:mx-0 sm:rounded-xl ${className}`}>
-      <table className="w-full min-w-[480px] border-collapse text-left text-xs sm:min-w-[640px] sm:text-sm">{children}</table>
+      <table className="w-full min-w-[30rem] border-collapse text-left text-xs sm:min-w-[40rem] sm:text-sm">{children}</table>
     </div>
   );
 }
 
 export function DataTableHead({ children }: { children: ReactNode }) {
   return (
-    <thead className="border-b border-[var(--border)] bg-[var(--surface-elevated)] text-[9px] font-semibold uppercase tracking-wider text-[var(--muted)] sm:text-[10px]">
+    <thead className="border-b border-[var(--border)] bg-[var(--surface-elevated)] text-[0.5625rem] font-semibold uppercase tracking-wider text-[var(--muted)] sm:text-[0.625rem]">
       {children}
     </thead>
   );

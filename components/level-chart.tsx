@@ -99,12 +99,12 @@ export function LevelChart({ deviceId }: Props) {
         <h3 className="text-xs font-semibold text-[var(--foreground)] sm:text-sm">
           Nível nas últimas 24h
         </h3>
-        <span className="text-[9px] text-[var(--muted)] sm:text-[10px]">
+        <span className="text-[0.5625rem] text-[var(--muted)] sm:text-[0.625rem]">
           {history.points.length} leituras
         </span>
       </div>
 
-      <ResponsiveContainer width="100%" height={220} className="sm:!h-[300px]">
+      <ResponsiveContainer width="100%" height={220} className="sm:!h-[18.75rem]">
         <AreaChart data={history.points} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
           <defs>
             <linearGradient id={`grad-${deviceId}`} x1="0" y1="0" x2="0" y2="1">
@@ -158,7 +158,7 @@ export function LevelChart({ deviceId }: Props) {
       </ResponsiveContainer>
 
       {/* Legenda */}
-      <div className="mt-2 grid grid-cols-2 gap-x-2 gap-y-0.5 text-[8px] text-[var(--muted)] sm:grid-cols-3 sm:gap-x-4 sm:gap-y-1 sm:text-[10px] md:grid-cols-4">
+      <div className="mt-2 grid grid-cols-2 gap-x-2 gap-y-0.5 text-[0.5rem] text-[var(--muted)] sm:grid-cols-3 sm:gap-x-4 sm:gap-y-1 sm:text-[0.625rem] md:grid-cols-4">
         {REF_LINES.map((ref) => (
           <span key={ref.key} className="flex items-center gap-1">
             <span

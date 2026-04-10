@@ -15,7 +15,7 @@ function Node({ node }: { node: AssetTreeNode }) {
       <div className="flex flex-wrap items-center gap-2 py-1.5">
         <Badge tone="neutral">{typeLabel[node.type]}</Badge>
         <span className="text-sm font-medium text-[var(--foreground)]">{node.label}</span>
-        <span className="font-mono text-[10px] text-[var(--muted)]">{node.id}</span>
+        <span className="font-mono text-[0.625rem] text-[var(--muted)]">{node.id}</span>
       </div>
       {node.children && node.children.length > 0 ? (
         <ul className="ml-3 border-l border-[var(--border)] pl-4">

@@ -34,7 +34,7 @@ export function AuditScreen() {
           </label>
           <Input id="audit-q" type="search" placeholder="Ação, recurso, e-mail…" />
         </div>
-        <div className="max-w-[140px]">
+        <div className="max-w-[8.75rem]">
           <label htmlFor="audit-from" className="mb-1 block text-xs font-medium text-[var(--muted)]">
             De
           </label>

@@ -51,7 +51,7 @@ export function LevelRing({ percent, label, online }: Props) {
             {Math.round(p)}%
           </span>
           <span
-            className={`text-[8px] font-medium uppercase tracking-wider sm:text-[10px] ${
+            className={`text-[0.5rem] font-medium uppercase tracking-wider sm:text-[0.625rem] ${
               online ? "text-[var(--device-online)]" : "text-[var(--device-offline)]"
             }`}
           >
