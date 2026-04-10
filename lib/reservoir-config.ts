@@ -32,7 +32,7 @@ const COMFORT: ReservoirThresholds = {
   extravasador: 2.30,
   recargaMaxima: 2.10,
   recargaMinima: 1.80,
-  nivelCritico: 0.60,
+  nivelCritico: 1.55,
   alturaUtil: 1.15,
   reservaTecnica: 0.95,
 };

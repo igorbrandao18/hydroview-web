@@ -88,7 +88,7 @@ export function LevelChart({ deviceId }: Props) {
     extravasador: 2.30,
     recargaMaxima: 2.10,
     recargaMinima: 1.80,
-    nivelCritico: 0.60,
+    nivelCritico: 1.55,
     reservaTecnica: 0.95,
   };
   const yMax = Math.ceil((t.limiteSuperior + 0.2) * 10) / 10;
