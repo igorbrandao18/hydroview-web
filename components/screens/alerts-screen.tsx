@@ -8,7 +8,7 @@ export function AlertsScreen({ alerts }: { alerts: DashboardAlert[] }) {
   const ok       = alerts.filter((a) => a.level === "ok").length;
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="">
       <PageHeader
         eyebrow="Operação"
         title="Alertas"

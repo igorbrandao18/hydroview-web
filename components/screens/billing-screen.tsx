@@ -26,7 +26,7 @@ export function BillingScreen() {
   const summary = getMockBillingSummary();
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="">
       <PageHeader
         eyebrow="Sistema"
         title="Faturamento"

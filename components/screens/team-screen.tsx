@@ -22,7 +22,7 @@ export function TeamScreen() {
   const data = getMockTeam();
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="">
       <PageHeader
         eyebrow="Sistema"
         title="Usuários & permissões"

@@ -15,7 +15,7 @@ export function AuditScreen() {
   const rows = getMockAudit();
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="">
       <PageHeader
         eyebrow="Sistema"
         title="Auditoria"

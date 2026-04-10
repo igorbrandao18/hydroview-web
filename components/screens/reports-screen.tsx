@@ -20,7 +20,7 @@ export function ReportsScreen() {
   const rows = getMockReports();
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="">
       <PageHeader
         eyebrow="Operação"
         title="Relatórios"

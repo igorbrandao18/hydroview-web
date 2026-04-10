@@ -21,7 +21,7 @@ export function CondominiumsScreen() {
   const data = getMockCondominiums();
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="">
       <PageHeader
         eyebrow="Gestão multitenant"
         title="Condomínios"

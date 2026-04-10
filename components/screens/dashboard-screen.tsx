@@ -16,7 +16,7 @@ export function DashboardScreen({ reservoirs, alerts }: Props) {
     : 0;
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div>
       <PageHeader
         eyebrow="Painel do condomínio"
         title="Água em tempo quase real"

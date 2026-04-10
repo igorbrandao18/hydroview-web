@@ -2,7 +2,7 @@ import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Inpu
 
 export function SettingsScreen() {
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="">
       <PageHeader
         eyebrow="Sistema"
         title="Configurações"

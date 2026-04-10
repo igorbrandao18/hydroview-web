@@ -23,7 +23,7 @@ export function WebhooksScreen() {
   const rows = getMockWebhooks();
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="">
       <PageHeader
         eyebrow="Integrações"
         title="Webhooks & API"

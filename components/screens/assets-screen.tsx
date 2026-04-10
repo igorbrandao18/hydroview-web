@@ -6,7 +6,7 @@ export function AssetsScreen() {
   const root = getMockAssetTree();
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="">
       <PageHeader
         eyebrow="Gestão multitenant"
         title="Assets & hierarquia"

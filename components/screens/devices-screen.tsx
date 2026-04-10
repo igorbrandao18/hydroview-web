@@ -13,7 +13,7 @@ import type { ReservoirDevice } from "@/lib/types";
 
 export function DevicesScreen({ devices }: { devices: ReservoirDevice[] }) {
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="">
       <PageHeader
         eyebrow="Operação"
         title="Dispositivos"

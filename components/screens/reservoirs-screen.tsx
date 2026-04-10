@@ -19,7 +19,7 @@ export function ReservoirsScreen({ devices }: { devices: ReservoirDevice[] }) {
     : 0;
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="">
       <PageHeader
         eyebrow="Operação"
         title="Reservatórios"

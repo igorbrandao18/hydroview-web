@@ -24,7 +24,7 @@ export function PartnersScreen() {
   const data = getMockPartners();
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="">
       <PageHeader
         eyebrow="Gestão multitenant"
         title="Empresas parceiras"
